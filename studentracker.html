@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Student Tracker</title>
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <script src = "https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js" type="text/javascript"></script>
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.png"/>
+  <script src = "/database_binding.js"  type="text/javascript"></script>
+<script src = "/sorttable.js"  type="text/javascript"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+	<script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+	<style type="text/css">
+		/* 
+Generic Styling, for Desktops/Laptops 
+*/
+body {
+  font-family: Arial;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+/* Zebra striping */
+tr:nth-of-type(odd) {
+  background: #e6ffe6;
+}
+th {
+  background: green;
+  color: white;
+  font-weight: bold;
+}
+th:after {
+  content: '\2605';
+}
+th:after {
+  margin-left: 10px;
+}
+td,
+th {
+  padding: 6px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+/* 
+Max width before this PARTICULAR table gets nasty
+This query will take effect for any screen edialler than 760px
+and also iPads specifically.
+*/
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* Force table to not be like tables anymore */
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr {
+    display: block;
+  }
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  tr {
+    border: 1px solid #ccc;
+  }
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+}
+td:first-of-type {
+  font-weight: bold;
+}
+
+	</style>
+</head>
+<body>
+	<div id = "button_row" class="field is-grouped">
+  <p class="control">
+    <button onclick = "fillTable(window.example,window.data);" class="button">
+      Students
+    </button>
+  </p>
+  <p class="control">
+    <button class="button">
+      Teachers
+    </button>
+  </p>
+  <p class="control">
+    <button class="button">
+      Classes
+    </button>
+  </p>
+  <p class="control">
+    <button class="button">
+      Current Lesson
+    </button>
+  </p>
+</div>
+<button id = "add_button" >Add</button>
+<table style = "word-break:break-all; table-layout: fixed; width: 100%;" class="sortable">
+	<thead>
+		<tr id = "table_head">
+			
+		</tr>
+	</thead>
+	<tbody id = "table_body">
+	
+	</tbody>
+</table>
+
+<div style = "background-color: green; color:white;" id="edit-form" title="Edit field">
+  <p class="validateTips">All form fields are required.</p>
+ 
+  <form id = "edit_form">
+    <fieldset id = "editfieldset">
+      
+    </fieldset>
+  </form>
+</div>
+
+
+
+<div style = "background-color: green; color:white;" id="add-form" title="Create new user">
+  <p class="validateTips">All form fields are required.</p>
+ 
+  <form id = "add_form">
+    <fieldset id = "fieldset">
+      
+    </fieldset>
+  </form>
+</div>
+
+
+<script type="text/javascript">
+
+	
+	window.dialog = $( "#add-form" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Create": create,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+     	 dialog.dialog( "close" );
+        
+      }
+    });
+
+  window.edit_dialog = $( "#edit-form" ).dialog({
+      autoOpen: false,
+      height: 400,
+      width: 350,
+      modal: true,
+      buttons: {
+        "Edit": update,
+        Cancel: function() {
+          dialog.dialog( "close" );
+        }
+      },
+      close: function() {
+       dialog.dialog( "close" );
+        
+      }
+    });
+
+
+
+</script>
+<script type="text/javascript">
+  loadbackenddata();
+</script>
+</body>
+
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HTML Loader</title>
+</head>
+	<script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css">
+	<style type="text/css">
+		#joined_count_div{
+		  position: absolute;
+		  left:90%;
+		  top:0%;
+		}
+	</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+	<script>
+		
+
+		function save(){
+			if(window.name === undefined){
+				$("#dialog-form").dialog("open");
+				return;
+			}
+			
+			axios.post('https://streamedbooks.herokuapp.com/html_examples', {
+			  name: window.name,
+			  html: $("#html").text()
+			}).then(function(res){
+				if(res.data === "Saved"){
+					$("#complete_message").empty().text("OK! You can view your website at https://streamedbooks.herokuapp.com/html_examples?example_name=" + window.name);
+					$("#completion-dialog").dialog("open");
+				} else {
+					alert ("There was a problem! Reload the page and try again!")
+				}
+			})
+
+		}
+	
+	</script>
+<body>
+	<div id = "joined_count_div">
+	    <button onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> Back to review</button>
+
+	    
+	  </div>
+
+	<p>Enter your html. Then click save. You'll be able to see your html on the web.</p>
+	<p id = "html" style = "border:black solid 5px;" contenteditable="true"></p>
+	<button onclick = "save()">Save</button>
+	<button onclick = "show()">Show</button>
+	<div style = "display: none;" id = "dialog-form">
+		<p>Hi! Please enter a name for your website.</p>
+		<input id = "name_input"></input>
+	</div>
+	<div style = "display: none;" id = "completion-dialog">
+		<p id = "complete_message">Okay! You can view your website at</p>
+	</div>
+	<script type="text/javascript">
+		window.dialog = $( "#dialog-form" ).dialog({
+	      autoOpen: false,
+	      height: 400,
+	      width: 350,
+	      modal: true,
+	      buttons: {
+	        "Save Name": function(){
+	        	window.name = $("#name_input").val();
+	        	window.dialog.dialog( "close" );
+	        }
+	      },
+	      close: function() {
+	        window.dialog.dialog( "close" );
+	      }
+	    });
+
+	    $("#completion-dialog").dialog({
+	      autoOpen: false,
+	      height: 400,
+	      width: 350,
+	      modal: true,
+	      buttons: {
+	        "Done": function(){
+	        	window.dialog.dialog( "close" );
+	        }
+	      },
+	      close: function() {
+	        window.dialog.dialog( "close" );
+	      }
+	    });
+
+		function show(){
+			dialog = $( "#dialog-form" ).dialog("open");
+
+		}
+
+		$("#dialog-form").dialog("open");
+		
+		
+	</script>
+</body>
+</html>

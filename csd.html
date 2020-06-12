@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CSD</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/logo.png"/>
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+	<script type="text/javascript" src="/node_modules/bulma-accordion/dist/js/bulma-accordion.min.js"></script>
+
+  <script src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">window.socket = io();</script>
+    <script type="text/javascript">
+      socket.on("function",function(msg){
+        console.log(typeof msg)
+        console.log(msg)
+        window[msg.function_name](msg.arg1,msg.arg2,msg.arg3)
+      })
+
+      socket.on("joined",function(msg){
+        $("#joined_count").text(msg.num);
+      })
+
+      socket.on("render_page",function(msg){
+        console.log(msg);
+        $("#" + msg.id).empty();
+        $("#" + msg.id).html(msg.html);
+      })
+
+      function rerender(id){
+     
+        var html = $("#" + id).html();
+        socket.emit("render_page",{html:html,id:id})
+      }
+    </script>
+
+	<style type="text/css">
+		
+
+.mydivheader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196F3;
+  color: #fff;
+}
+
+#body_content{
+  position: absolute;
+  left:15%;
+  width:60%;
+}
+
+body{
+
+  padding: 0 10px;
+  font-family: 'Open Sans', sans-serif;
+}
+.accordion-container{
+  position: relative;
+  max-width: 500px;
+  height: auto;
+  margin: 10px auto;
+}
+.accordion-container > h2{
+  text-align: center;
+  color: black;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+.set{
+  position: relative;
+  width: 100%;
+  height: auto;
+  background-color: #f5f5f5;
+}
+.set > a{
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+  -webkit-transition:all 0.2s linear;
+  -moz-transition:all 0.2s linear;
+  transition:all 0.2s linear;
+}
+.set > a i{
+  float: right;
+  margin-top: 2px;
+}
+.set > a.active{
+
+  color: black;
+}
+.content{
+
+  border-bottom: 1px solid #ddd;
+  display:none;
+}
+.content p{
+  padding: 10px 15px;
+  margin: 0;
+  color: black;
+}
+
+
+#joined_count_div{
+  position: absolute;
+  left:90%;
+  top:0%;
+}
+
+
+
+
+.tile{
+	 margin-top:5%;
+   width: 100%;
+}
+
+.coding_space{
+	 resize: both;
+     overflow: auto;
+     text-align: left;
+     width:400px;
+     height: 200px;
+}
+
+#joined_count_div{
+  position: absolute;
+  left:90%;
+  top:0%;
+}
+
+	</style>
+</head>
+<body>
+	<div id = "joined_count_div">
+	    <button onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> Back to review</button>
+       <button onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'">To react example</button>
+	  </div>
+	<h3 style = "text-align: center; color:red; text-decoration-line: underline; ">WWW example - Netflix</h3>
+	<div style = "margin-top: 0%;margin-left: auto;
+  margin-right: auto;
+  display: block;">
+
+		<div style = "float:left; width:30%;" >
+			<img src = "/comp.png"></img>
+			<p style = "text-align: center;">Client (Your Computer)</p>
+			<p id = "comp1" oninput = "rerender('comp1')" contenteditable="true"></p>
+		</div>
+		<div style = "float:left; width:30%;" >
+			<img  src = "/comp.png"></img>
+			<p id = "comp2" oninput = "rerender('comp2')"  style = "text-align: center;">Server</p>
+			<p contenteditable="true"></p>
+		</div>
+		<div style = "float:left; width:30%;" >
+			<img   src = "/comp.png"></img>
+			<p id = "comp3" oninput = "rerender('comp3')"  style = "text-align: center;">Database</p>
+			<p contenteditable="true"></p>
+		</div>
+	</div>
+</body>
+</html>

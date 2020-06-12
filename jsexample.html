@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Button Example</title>
+	<link rel="shortcut icon" type="image/x-icon" href="/logo.png"/>
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="/ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
+   <script type="text/javascript">
+   
+   </script>
+   <style type="text/css">
+   	/* The Modal (background) */
+
+   	.child_element{
+   		display:inline-block;
+   		clear: both;
+   		text-align: center;
+   		align-items: center;
+   		margin-top: -5%;
+   		margin-bottom: 0%;
+   	}
+
+   	button{
+		display: inline-block;
+   	}
+
+
+#joined_count_div{
+  position: absolute;
+  left:90%;
+  top:0%;
+}
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#output_div{
+	margin-top: 0px;
+}
+
+   </style>
+
+</head>
+<body class="tile is-parent" style = " align-items: space-around; display: flex; white-space: pre-wrap; height: 1600px; background-color: #8CC548;">
+	 <div id = "joined_count_div">
+	    <button onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> Back to review</button>
+
+	    
+	  </div>
+	<section class="section" style = "width: 100%;">
+	<article class="tile is-child notification is-danger" style = "position: absolute; top:-2%; left:20%; width:60%; height: 10%;display: flex; flex-direction: row; justify-content: center;background-color:navy">
+		<button class = "button"   onclick="next_level()">I'm done!</button>
+		<button hidden  class = "button" id ="style_list_button"  onclick="alert(style_list)">Style List</button>
+	</article>
+	<article  style = "position: absolute;top:14%; width: 30%; left:16%;" class="tile is-child">
+		<h3 style = "margin-left:37%; text-align: center; text-decoration-line: underline; float:left; color:#1E1D47" class="title is-3">CODE</h3>
+		<div style="border:solid 5px black;">
+		<p id="input_div" style = "font-size:24px; float:left; color: #1C1B79;" contenteditable="true" white>&lt;button style = "width:400px; height: 100px;" onclick = "
+			//write your code here
+			alert(x);
+			" &gt;
+I'M A BUTTON
+&lt;/button&gt;
+		</p>
+	  </div>
+	</article>
+	<article style = " position: absolute; left: 50%;align-items: center; top:18%; width: 45%;" class="tile is-child">
+		<h3 style = "margin-bottom: -5%; text-decoration-line: underline; text-align: center; color: #1E1D47; "  class="child_element title is-3"> MAKE THIS:</h3>
+		<div style = "border:solid 5px black; width: 80%; display: flex;align-items: center; justify-content: center; " class = "child_element" id = "output_div">
+			<button style = "width:400px; height: 100px; display: inline-block; align-self: center;">I'M A BUTTON</button>
+		</div>
+	</article>
+	<article style = "position: absolute; left: 50%;align-items: center; top:54%; width: 45%;" class="tile is-child">
+		<h3 class = "child_element title is-3" style = "text-align: center; text-decoration-line: underline; margin-top: -20%; color: #1E1D47;" >ALERT THIS:</h3>
+		<div style = "border:solid 5px black; width: 80%; font-size: 36px; display: flex;align-items: center; justify-content: center; " class = "child_element" id = "goal_div">
+	    	5
+	    </div>
+	</article>
+	</section>
+	<script type="text/javascript">
+		function render(){
+			var input = $("#input_div").text()
+	
+
+		 $("#output_div").empty().append(input)
+		}
+
+		$("#input_div").on("input",render)
+	</script>
+
+	<div id="myModal" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+	    <span class="close">&times;</span>
+
+	  </div>
+
+	</div>
+	<script type="text/javascript">
+		window.level = 0;
+		// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+function check(){
+
+	var code =  $("#input_div").text().substring(
+	    $("#input_div").text().lastIndexOf("onclick=") + 9, 
+	    $("#input_div").text().lastIndexOf(";'") + 1
+	);
+
+
+
+	if ($("#output_div").children().length !== $("#goal_div").children().length){return false}
+	var output = true;
+	var goal_children = $("#goal_div").children();
+
+	
+	return output;
+}
+
+function next_level(){
+		alert("Good job!")
+		if(window.levels[window.level].after !== undefined){
+			window.levels[window.level].after();
+		}
+		window.level = window.level + 1;
+		$("#input_div").empty().text(window.levels[window.level].code);
+		console.log()
+		$("#goal_div").empty().text(window.levels[window.level].goal);	
+}
+
+function skip_level(){
+		window.level = window.level + 1;
+		$("#goal_div").empty().append($(window.levels[window.level].goal))
+
+	
+}
+
+//LEVELS here//
+
+window.levels = [{
+},
+{goal:10,
+code:`
+
+<button onclick = "
+
+//
+//REPLACE THESE LINES WITH YOUR CODE
+//
+alert(x + y);
+
+" style = "width:400px; height: 100px;" >
+I'M A BUTTON
+</button>
+`
+},
+
+{goal:30,
+code:`
+
+<button onclick = "
+
+//
+//REPLACE THESE LINES WITH YOUR CODE
+//
+var y = b;
+alert(x + y);
+
+" style = "width:400px; height: 100px;" >
+I'M A BUTTON
+</button>
+`},
+{goal:50,
+code:`
+
+<button onclick = "
+
+//
+//REPLACE THESE LINES WITH YOUR CODE
+//
+var y = b;
+var x = d;
+alert(x + y);
+
+" style = "width:400px; height: 100px;" >
+I'M A BUTTON
+</button>
+`
+},
+
+{goal:100,
+code:`
+
+<button onclick = "
+
+//
+//REPLACE THESE LINES WITH YOUR CODE
+//
+var y = b;
+var x = d;
+alert( (x + y) * 10 );
+
+" style = "width:400px; height: 100px;" >
+I'M A BUTTON
+</button>
+`
+}
+
+]
+	</script>
+
+<script type="text/javascript">
+	var getFromBetween = {
+    results:[],
+    string:"",
+    getFromBetween:function (sub1,sub2) {
+        if(this.string.indexOf(sub1) < 0 || this.string.indexOf(sub2) < 0) return false;
+        var SP = this.string.indexOf(sub1)+sub1.length;
+        var string1 = this.string.substr(0,SP);
+        var string2 = this.string.substr(SP);
+        var TP = string1.length + string2.indexOf(sub2);
+        return this.string.substring(SP,TP);
+    },
+    removeFromBetween:function (sub1,sub2) {
+        if(this.string.indexOf(sub1) < 0 || this.string.indexOf(sub2) < 0) return false;
+        var removal = sub1+this.getFromBetween(sub1,sub2)+sub2;
+        this.string = this.string.replace(removal,"");
+    },
+    getAllResults:function (sub1,sub2) {
+        // first check to see if we do have both substrings
+        if(this.string.indexOf(sub1) < 0 || this.string.indexOf(sub2) < 0) return;
+
+        // find one result
+        var result = this.getFromBetween(sub1,sub2);
+        // push it to the results array
+        this.results.push(result);
+        // remove the most recently found one from the string
+        this.removeFromBetween(sub1,sub2);
+
+        // if there's more substrings
+        if(this.string.indexOf(sub1) > -1 && this.string.indexOf(sub2) > -1) {
+            this.getAllResults(sub1,sub2);
+        }
+        else return;
+    },
+    get:function (string,sub1,sub2) {
+        this.results = [];
+        this.string = string;
+        this.getAllResults(sub1,sub2);
+        return this.results;
+    }
+
+
+};
+$("#style_list_button").hide()
+</script>
+
+</body>
+</html>

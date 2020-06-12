@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Remote Coding Challenge</title>
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+	<script type="text/javascript" src="/node_modules/bulma-accordion/dist/js/bulma-accordion.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+    <script>
+      var socket = io();
+    </script>
+    <script>
+      var question_text = [
+        `
+          <div><br></div>
+        
+         <div><br></div>
+          <div><br></div>
+           <div><br></div>
+           <div><br></div>
+           <div><br></div>
+        output(x)
+        `,
+        `
+        <div><br></div>
+        
+         <div><br></div>
+          <div><br></div>
+           <div><br></div>
+           <div><br></div>
+           <div><br></div>
+
+           output(str1 + str2)
+
+
+        `,
+        `
+        function add(){
+          <div><br></div>
+        }
+        
+        
+         <div><br></div>
+          <div><br></div>
+           <div><br></div>
+   
+
+           output(add(3,4))
+
+
+        `,
+         `
+          var arr = 
+        
+       
+          <div><br></div>
+          <div><br></div>
+           output(arr[1])
+
+
+        `,
+        `
+          var arr = [];
+          <div><br></div>
+          arr.push();
+          <div><br></div>
+          arr.push();
+          <div><br></div>
+          arr.push();
+        
+       
+          <div><br></div>
+          <div><br></div>
+           output(arr[1] + arr[2])
+
+
+        `,
+        `
+
+        var x  =5;
+        <div><br></div>
+          if(){
+            <div></div>
+            output("Hello World")
+            <div></div>
+          } else {
+            <div></div>
+            output("Goodbye World")
+            <div></div>
+          }
+          
+           
+
+
+        `,
+        `
+
+        var a = 5;<div></div>
+        var b = 6;<div></div><div><br></div><div></div><div></div>
+
+      function if_five_if_six(){
+          <div><br></div>
+        }<div><br></div><div></div><div></div>
+        
+     
+
+           output( if_five_if_six(a) + if_five_if_six(b)   )
+
+
+
+        `,
+
+         `
+         <div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div>
+        
+
+     
+     
+
+           output( myarr[0] + myarr[1] + myarr[2] )
+
+
+
+        `,
+        `
+        var num = 0;<div></div>
+        var arr = [2,8,6,4];<div><br></div>
+
+        function add_to(x){
+          <div></div>
+          num = num + x
+          <div></div>
+        }
+        <div><br></div>
+
+     
+     
+
+           output( num )
+        
+
+
+
+        `,
+        `
+       
+        var arr = [2,8,6,4,5,5];
+ <div><br></div>
+        function add_all(arr){
+          <div><br></div>
+        }
+        <div><br></div>
+
+     
+     
+
+           output( add_all(arr))
+        
+
+
+
+        `
+
+      ]
+
+      function fill(elem,ind){
+        // console.log("fill")
+        // console.log($(elem).closest(".coding_space").length)
+        var text = $(elem).parent().parent().parent().parent().parent().parent().find(".coding_space").html()
+        console.log(text)
+         
+        $(elem).parent().parent().parent().parent().parent().parent().find(".coding_space").html(question_text[ind])
+      }
+    </script>
+    <script type="text/javascript">
+      socket.on("function",function(msg){
+        console.log(typeof msg)
+        console.log(msg)
+        window[msg.function_name](msg.arg1,msg.arg2,msg.arg3)
+      })
+
+      socket.on("render",function(msg){
+        console.log(msg);
+        $("#" + msg.id).empty();
+        $("#" + msg.id).html(msg.html);
+      })
+
+      function rerender(id){
+        var html = $("#" + id).html();
+        socket.emit("render",{html:html,id:id})
+      }
+    </script>
+
+	<style type="text/css">
+		.mydiv {
+  position: absolute;
+  z-index: 9;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+
+}
+
+.mydivheader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196F3;
+  color: #fff;
+}
+
+body{
+
+  padding: 0 10px;
+  font-family: 'Open Sans', sans-serif;
+}
+.accordion-container{
+  position: relative;
+  max-width: 500px;
+  height: auto;
+  margin: 10px auto;
+}
+.accordion-container > h2{
+  text-align: center;
+  color: black;
+  padding-bottom: 5px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+}
+.set{
+  position: relative;
+  width: 100%;
+  height: auto;
+  background-color: #f5f5f5;
+}
+.set > a{
+  display: block;
+  padding: 10px 15px;
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+  -webkit-transition:all 0.2s linear;
+  -moz-transition:all 0.2s linear;
+  transition:all 0.2s linear;
+}
+.set > a i{
+  float: right;
+  margin-top: 2px;
+}
+.set > a.active{
+
+  color: black;
+}
+.content{
+
+  border-bottom: 1px solid #ddd;
+  display:none;
+}
+.content p{
+  padding: 10px 15px;
+  margin: 0;
+  color: black;
+}
+
+
+.tile{
+	 position: absolute;
+  z-index: 9;
+  background-color: #f1f1f1;
+  border: 1px solid #d3d3d3;
+  text-align: center;
+}
+
+.coding_space{
+	 resize: both;
+     overflow: auto;
+     text-align: left;
+     width:400px;
+     height: 200px;
+}
+
+	</style>
+	<script type="text/javascript">
+		function run(id, elem, optional_test){
+      console.log(id);
+			var entered = $(elem).parent().find(".coding_space").text()
+
+			entered = entered.replace("output(","output('" + id + "',")
+      try {
+  			var result = eval(entered)
+  			$(elem).parent().find(".coding_space").text(result)
+      } catch(e){
+        alert(e)
+      }
+		}
+
+		function color_js(elem){
+			console.log($(elem).text())
+		}	
+
+		function output(id,result){
+			console.log(id,result)
+			
+			$("#results_display_" + id).text(JSON.stringify(result))
+			check_results()
+		}
+
+		function check_results(elem){
+			console.log(elem)
+			$(elem).parent().parent().find("a").each(function(ind,question){
+
+				if($(question).hasClass("active")){
+					var expected = $(question).data("expected")
+					console.log(typeof expected)
+					var actual = $(elem).parent().parent().find(".results_display").text()
+					console.log(typeof actual)
+          console.log(actual === expected)
+          if(!isNaN(parseInt(actual))){
+            actual = parseInt(actual)
+          }
+          if(!isNaN(parseInt(expected))){
+            actual = parseInt(expected)
+          }
+
+					if(expected === actual){
+						$(question).css("color","green")
+						$(question).parent().find(".content").html("<p>DONE!</p>")
+
+					}
+				}
+			})
+		}
+	</script>
+</head>
+<body>
+  <button onclick = "add_student()" >Add new student</button>
+  <div id = "body_content">
+	 
+    </div>
+      <script type="text/javascript">
+      	// Make the DIV element draggable:
+		dragElement(document.getElementById("mydiv"));
+
+		function dragElement(elmnt) {
+		  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+		  if (document.getElementById(elmnt.id + "header")) {
+		    // if present, the header is where you move the DIV from:
+		    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
+		  } else {
+		    // otherwise, move the DIV from anywhere inside the DIV:
+		    elmnt.onmousedown = dragMouseDown;
+		  }
+
+		  function dragMouseDown(e) {
+		    e = e || window.event;
+		    e.preventDefault();
+		    // get the mouse cursor position at startup:
+		    pos3 = e.clientX;
+		    pos4 = e.clientY;
+		    document.onmouseup = closeDragElement;
+		    // call a function whenever the cursor moves:
+		    document.onmousemove = elementDrag;
+		  }
+
+		  function elementDrag(e) {
+		    e = e || window.event;
+		    e.preventDefault();
+		    // calculate the new cursor position:
+		    pos1 = pos3 - e.clientX;
+		    pos2 = pos4 - e.clientY;
+		    pos3 = e.clientX;
+		    pos4 = e.clientY;
+		    // set the element's new position:
+		    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+		    elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+		  }
+
+		  function closeDragElement() {
+		    // stop moving when mouse button is released:
+		    document.onmouseup = null;
+		    document.onmousemove = null;
+		  }
+		}
+      </script>
+      <script type="text/javascript">
+      	$(document).ready(function() {
+  $(".set > a").on("click", function() {
+    if ($(this).hasClass("active")) {
+      $(this).removeClass("active");
+      $(this)
+        .siblings(".content")
+        .slideUp(200);
+      $(".set > a i")
+        .removeClass("fa-minus")
+        .addClass("fa-plus");
+    } else {
+      $(".set > a i")
+        .removeClass("fa-minus")
+        .addClass("fa-plus");
+      $(this)
+        .find("i")
+        .removeClass("fa-plus")
+        .addClass("fa-minus");
+      $(".set > a").removeClass("active");
+      $(this).addClass("active");
+      $(".content").slideUp(200);
+      $(this)
+        .siblings(".content")
+        .slideDown(200);
+    }
+  });
+});
+
+function add_student(){
+  var name = prompt("What's your name?");
+  $("#body_content").append(`
+    <article id = "pane_`+name+`" class="tile mydiv is-child notification is-danger">
+    <div id = "pane_`+name+`header" class="mydivheader">Write your code here, `+name+`</div>
+    <div style = "display: flex;">
+      <div>
+            <p id="coding_space_`+name+`" oninput = "rerender('coding_space_`+name+`')" style = "background-color: white; color:black;" class = "coding_space" contenteditable="true">
+                
+            </p>
+            <p class = "results_display" id = "results_display_`+name+`" style = "background-color: white; color:black; border-top: thin solid #32a1ce;">Results here</p>
+            <button onclick="run('`+name+`',this);check_results(this)">Run</button>
+        </div>
+        <div>
+          <div style = "width:200px;">
+            <div>
+    <div  class="set set_`+name+`">
+      <a onclick = "fill(this,0)" data-expected = 5 style = "color:black;" href="#">
+        Lesson 1
+        <i class="fa fa-plus"></i>
+      </a>
+      <div class="content">
+        <p>Create a variable called x that has the variable 5. Output x.</p>
+      </div>
+    </div>
+    <div class="set set_`+name+`">
+    <a onclick = "fill(this,1)" data-expected = '"Hello World"' style = "color:black;" href="#">
+      Lesson 2
+      <i class="fa fa-plus"></i>
+    </a>
+    <div class="content">
+      <p>Create two variables, str1 and str2. Then output str1 + str2. The output should be the phrase 'Hello World'</p>
+    </div>
+  </div>
+  <div class="set set_`+name+`">
+    <a onclick ="fill(this,2)" data-expected = 7  style = "color:black;" href="#">
+      Lesson 3
+      <i class="fa fa-plus"></i>
+    </a>
+    <div class="content">
+      <p>Write a function add that adds two numbers together.</p>
+    </div>
+  </div>
+
+
+
+   <div class="set set_`+name+`">
+    <a onclick ="fill(this,3)" data-expected = 5  style = "color:black;" href="#">
+      Lesson 4
+      <i class="fa fa-plus"></i>
+    </a>
+    <div class="content">
+      <p>Create an array called arr. The second element in the array should be 5.</p>
+    </div>
+  </div>
+
+
+
+
+     <div class="set set_`+name+`">
+    <a onclick ="fill(this,4)" data-expected = 13  style = "color:black;" href="#">
+      Lesson 5
+      <i class="fa fa-plus"></i>
+    </a>
+    <div class="content">
+      <p>Fill in these push statements so that the final output from the output line is 13.</p>
+    </div>
+  </div>
+
+
+     <div class="set set_`+name+`">
+    <a onclick ="fill(this,5)" data-expected = '"Hello World"'  style = "color:black;" href="#">
+      Lesson 6  
+      <i class="fa fa-plus"></i>
+    </a>
+    <div class="content">
+      <p>Fill in the if statement so that the output is Hello World.</p>
+    </div>
+  </div>
+
+
+
+     <div class="set set_`+name+`">
+    <a onclick ="fill(this,6)" data-expected = '"Hello World"'  style = "color:black;" href="#">
+      Lesson 7  
+      <i class="fa fa-plus"></i>
+    </a>
+    <div class="content">
+      <p>Create a function called if_five_if_six that makes the output Hello World.</p>
+    </div>
+  </div>
+
+
+
+     <div class="set set_`+name+`">
+    <a onclick ="fill(this,7)" data-expected = '"I AM HUNGRY NOW"'  style = "color:black;" href="#">
+      Lesson 8  
+      <i class="fa fa-plus"></i>
+    </a>
+    <div class="content">
+      <p>Create your own array that makes the output statement equal to the phrase "I AM HUNGRY NOW". </p>
+    </div>
+  </div>
+
+
+     <div class="set set_`+name+`">
+    <a onclick ="fill(this,8)" data-expected = 20  style = "color:black;" href="#">
+      Lesson 9  
+      <i class="fa fa-plus"></i>
+    </a>
+    <div class="content">
+      <p>Use for each to run the add function on every element of the myarr array.</p>
+    </div>
+  </div>
+
+
+     <div class="set set_`+name+`">
+    <a onclick ="fill(this,9)" data-expected = 30  style = "color:black;" href="#">
+      Lesson 10  
+      <i class="fa fa-plus"></i>
+    </a>
+    <div class="content">
+      <p>Write a function add that takes an array as an argument and returns the sum of all the elements in the array. Look at number 9 for a hint if you need to.</p>
+    </div>
+  </div>
+
+
+
+</div>
+     </div>
+        </div>
+        
+
+      </article>
+    `)
+      render_draggable(name);
+      rerender("body_content")
+      socket.emit("function",{function_name:"render_draggable", arg1:name})
+ 
+
+}
+      </script>
+      <script type="text/javascript">
+        function render_draggable(name){
+            dragElement(document.getElementById("pane_" + name));
+
+
+           $(".set_"+name+" > a").on("click", function() {
+            if ($(this).hasClass("active")) {
+              $(this).removeClass("active");
+              $(this)
+                .siblings(".content")
+                .slideUp(200);
+              $(".set > a i")
+                .removeClass("fa-minus")
+                .addClass("fa-plus");
+            } else {
+              $(".set > a i")
+                .removeClass("fa-minus")
+                .addClass("fa-plus");
+              $(this)
+                .find("i")
+                .removeClass("fa-plus")
+                .addClass("fa-minus");
+              $(".set > a").removeClass("active");
+              $(this).addClass("active");
+              $(".content").slideUp(200);
+              $(this)
+                .siblings(".content")
+                .slideDown(200);
+            }
+          });
+        }
+      </script>
+</body>
+</html>

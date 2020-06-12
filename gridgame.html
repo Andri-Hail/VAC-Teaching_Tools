@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>HTML example</title>
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+	
+	
+	<script type="text/javascript">
+		for(var i = 0;i<=1200;i+= 100){
+			$("body").append($(`<div style = "position: absolute;  background-color: transparent; height: 100px; width:20px; top:`+i+`px;left:0; border-bottom-width: 1px;border-bottom-color: black; border-bottom-style: solid;"><p style = "position: absolute;left:20px; top: 75px;">`+(i + 100) +`</p></div>`))
+
+			$("body").append($(`<div style = "position: absolute;  background-color: transparent; height: 20px; width:100px; top:0px;left:`+i+`px; border-right-width: 1px;border-right-color: black; border-right-style: solid;"><p style = "position: absolute;left:87px; top: 5px;">`+ (i+100) +`</p></div>`))
+		}
+
+		function randomPosition(){
+			var x = (Math.floor(Math.random() * 13) + 1) * 100;
+			var y = (Math.floor(Math.random() * 7) + 1) * 100;
+			return {x,y};
+		}
+
+		function generateRandomElement(){
+			var randPosition = randomPosition();
+			console.log(randPosition)
+			$("body").append($(`<p style = "position:absolute; top:`+randPosition.y+`px;left:`+ (randPosition.x - 20) +`px;" >red-button-100px wide</p>`))
+		}
+
+		generateRandomElement();
+		setInterval(generateRandomElement,10000)
+	</script>
+
+</body>
+</html>

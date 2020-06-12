@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Generate Your React Native Web Component</title>
+	 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous"></script>
+	<script>
+		class Attribute {
+			constructor(name,type,definition,can_be_blank, default_is){
+				this.name = name;
+				this.type = type;
+				this.definition = definition;
+				this.can_be_blank = can_be_blank;
+				this.default_is = default_is
+			}
+
+		}
+
+		var Attributes = {
+		   onPress: new Attribute("onPress","function","What is the function that should run when this is clicked? This needs to the name of a function. Press ok without entering anything for default",false,"function(){}"),
+		    title: new Attribute("title","string","What should the text on this function be?",false,"Button"),
+		    color: new Attribute("color","string","What color should this button be? See the list of colors here. Press ok without entering anything for default",false,"blue"),
+
+		}
+
+		function wrapAttributeValue(str,type){
+			if(type === "string"){return '"' + str + '"'}
+			if(type === "function"){return '{' + str + '}'}
+			if(type === "number"){return str}
+			if(type === "object"){return '{' + str + '}'}	
+		}
+
+
+
+		class Component{
+			constructor(jsx,attribute_list){
+				this.jsx = jsx;
+				this.attribute_list = attribute_list;
+				
+
+			}
+
+			define_attribute_list(){
+			
+				var str = ``
+				this.attribute_list.forEach(function(attribute){
+
+					attribute = Attributes[attribute]
+					var value = prompt(attribute.definition);
+					if(value === ""){value = attribute.default_is}
+					str +=  ("\n   " + attribute.name + " = " + wrapAttributeValue(value, attribute.type ))
+				})
+				str = str + "\n" + "\n"
+
+				 var insert_point = this.jsx.search("style");
+
+				return this.jsx.slice(0,insert_point) + str + "   " + this.jsx.slice(insert_point,this.jsx.length)
+			}
+		}
+
+		var components = {
+			"button":new Component(
+				`
+<Button  
+   style = 
+   {{
+
+   }}
+>
+
+</Button>`,
+["onPress","title","color"]
+),
+			"dropdown":new Component(
+				`
+<Picker
+   selectedValue={"option1"}
+   style={{ height: 50, width: 150 }}
+   onValueChange={function(){}}
+>
+    <Picker.Item label="Option1" value="option1" />
+    <Picker.Item label="Option2" value="option2" />
+</Picker>`,
+[]
+
+),
+			"scroller":new Component(
+				`
+<ScrollView style={{height:"50px"}}>
+    <Text style={{borderColor: "#20232a"}}>
+      Anything inside this view will scroll. Set the height to constrain how much of the screen it takes up.
+    </Text>
+    <Text style={{borderColor: "#20232a"}}>
+      Anything inside this view will scroll. Set the height to constrain how much of the screen it takes up.
+    </Text>
+    <Text style={{borderColor: "#20232a"}}>
+      Anything inside this view will scroll. Set the height to constrain how much of the screen it takes up.
+    </Text>
+    <Text style={{borderColor: "#20232a"}}>
+      Anything inside this view will scroll. Set the height to constrain how much of the screen it takes up.
+    </Text>
+</ScrollView>`,
+[]
+),
+			"image":new Component(
+				`
+<Image
+   style = {{height:70}}
+    source = {{uri:"https://i.redd.it/w3kr4m2fi3111.png"}}
+/>`,
+[]
+)
+		}
+
+		function produce_component(){
+			var cname = $("#components_select").val();
+			var component = components[cname];
+			$("#component_text").val(component.define_attribute_list());
+		}
+	</script>
+</head>
+<body>
+	<label for="components_select">Choose a component to add to your app:</label>
+	<div>
+		<select onchange = "produce_component()" id="components_select">
+		  <option value="button">Button</option>
+		<!--   <option value="button">Button To Another Page</option> -->
+		  <!-- <option value="button">PopUp</option> -->
+		  <!-- <option value="checkbox">Checkbox</option> -->
+		  <!-- <option value="list">List</option> -->
+		  <option value="image">Image</option>
+		  <option value="dropdown">Dropdown</option>
+		   <option value="scroller">Scroller</option>
+		   <option value="switch">Switch</option>
+		   <!-- <option value="text">Text</option> -->
+		   <!-- <option value="textinput">TextInput</option> -->
+		   <!-- <option value="touchablehighlight">TouchableHighlight</option> -->
+		   <!-- <option value="view">View</option> -->
+		   <!-- <option value="modal">Modal</option> -->
+		</select>
+	</div>
+
+	<textarea contenteditable="" id = "component_text" rows="20	" cols="50">
+	</textarea>
+
+
+</body>
+</html>

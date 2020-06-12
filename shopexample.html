@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Shop Example</title>
+	<script type="text/javascript" src = "https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.js"></script>
+		<style type="text/css">
+		#joined_count_div{
+		  position: absolute;
+		  left:90%;
+		  top:0%;
+		}
+	</style>
+	<script src="/ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+	<style type="text/css">
+		.ui-dialog
+		{
+		position:fixed;
+		}
+		body{
+			margin-top: 0px;
+		}
+
+
+	</style>
+	<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
+</head>
+<body>
+	<div id = "joined_count_div">
+	    <button onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> Back to review</button>
+
+	    
+	  </div>
+  <div style = "position: absolute; left:25%; top:0%; display:none; background-color:blue; width:50%; color:white; font-weight:bold;font-size:16px;" id = "system_dialog">
+		<p id = "system_message">You need to do more!</p>
+	</div>
+	<p style = "padding-top: 50px;">Your Mission: Make The Best Pizza Shop Website</p>
+	<script type="text/javascript">
+		window.money_rise_rate = 0;
+	</script>
+	<div style = "border:solid black 1px;">
+		<p>You have $<span id = "money_amount">0</span></p>
+	</div>
+	<p>Write your website code here</p>
+	<div  >
+		<p style = "border:solid black 1px; height: 100px; width:100%;" id = "code" contenteditable="true"></p>
+	</div>
+	
+
+	<div style = "background-color: teal; height: 400px;" id = "output_div">
+	</div>
+	<script type="text/javascript">
+
+	var editor = ace.edit("code");
+    editor.setTheme("ace/theme/dawn");
+    editor.session.setMode("ace/mode/html");
+
+		var getFromBetween = {
+    results:[],
+    string:"",
+    getFromBetween:function (sub1,sub2) {
+        if(this.string.indexOf(sub1) < 0 || this.string.indexOf(sub2) < 0) return false;
+        var SP = this.string.indexOf(sub1)+sub1.length;
+        var string1 = this.string.substr(0,SP);
+        var string2 = this.string.substr(SP);
+        var TP = string1.length + string2.indexOf(sub2);
+        return this.string.substring(SP,TP);
+    },
+    removeFromBetween:function (sub1,sub2) {
+        if(this.string.indexOf(sub1) < 0 || this.string.indexOf(sub2) < 0) return false;
+        var removal = sub1+this.getFromBetween(sub1,sub2)+sub2;
+        this.string = this.string.replace(removal,"");
+    },
+    getAllResults:function (sub1,sub2) {
+        // first check to see if we do have both substrings
+        if(this.string.indexOf(sub1) < 0 || this.string.indexOf(sub2) < 0) return;
+
+        // find one result
+        var result = this.getFromBetween(sub1,sub2);
+        // push it to the results array
+        this.results.push(result);
+        // remove the most recently found one from the string
+        this.removeFromBetween(sub1,sub2);
+
+        // if there's more substrings
+        if(this.string.indexOf(sub1) > -1 && this.string.indexOf(sub2) > -1) {
+            this.getAllResults(sub1,sub2);
+        }
+        else return;
+    },
+    get:function (string,sub1,sub2) {
+        this.results = [];
+        this.string = string;
+        this.getAllResults(sub1,sub2);
+        return this.results;
+    }
+
+
+};
+
+jQuery.fn.getAllcss = (function(css2) { 
+    return function() {
+        if (arguments.length) { return css2.apply(this, arguments); }
+        var attr = ['font-family','font-size','font-weight','font-style','color',
+            'text-transform','text-decoration','letter-spacing','word-spacing',
+            'line-height','text-align','vertical-align','direction','background-color',
+            'background-image','background-repeat','background-position',
+            'background-attachment','opacity','width','height','top','right','bottom',
+            'left','margin-top','margin-right','margin-bottom','margin-left',
+            'padding-top','padding-right','padding-bottom','padding-left',
+            'border-top-width','border-right-width','border-bottom-width',
+            'border-left-width','border-top-color','border-right-color',
+            'border-bottom-color','border-left-color','border-top-style',
+            'border-right-style','border-bottom-style','border-left-style','position',
+            'display','visibility','z-index','overflow-x','overflow-y','white-space',
+            'clip','float','clear','cursor','list-style-image','list-style-position',
+            'list-style-type','marker-offset'];
+        var len = attr.length, obj = {};
+        for (var i = 0; i < len; i++) {
+            obj[attr[i]] = css2.call(this, attr[i]);
+        }
+        return obj;
+    };
+})(jQuery.fn.css);
+
+		function render(){
+
+		var functions = getFromBetween.get($("#code").text(),"{{","}}")
+		var input = $("#code").find(".ace_line").text()
+		var i = -1;
+		while(input.indexOf("{{") !== -1 && input.indexOf("}}") !== -1){
+			i++;
+			input = input.replace(/\{{(.+?)\}}/,eval(functions[i]))
+		}
+
+		 $("#output_div").empty().html(input)
+		}
+
+
+
+		window.adjust_message = function(){
+			console.log($("body").find("button"))
+			if($("body").find("button").length === 1){
+				$("#system_message").empty().text("People want to buy your pizza. There's no button on your website they can click to buy!");
+				return;
+			}
+			window.money_rise_rate = 1;
+
+			if($("body").find("button").text().indexOf("Pizza") === -1 && $("body").find("button").text().indexOf("pizza") === -1){
+				$("#system_message").empty().text("People don't know what they're buying when they click on your button!");
+				return;
+			}
+			window.money_rise_rate = 3;
+
+			if($("body").find("p").length === 5){
+				$("#system_message").empty().text("People don't know how good your pizza is. Describe it.");
+				return;
+			}
+			window.money_rise_rate = 5;
+
+			if($("body").find("img").length === 0){
+				$("#system_message").empty().text("People want to see a picture of your pizza to compare to other pizza");
+				return;
+			}
+			window.money_rise_rate = 8;
+
+
+			if($("body").find("button").get(1).style[0] === undefined){
+				$("#system_message").empty().text("People think your button is plain. Add some style to make it pop.");
+				return;
+			}
+			window.money_rise_rate = 12;
+
+			if($("body").find("p").get(1).style[0] === undefined){
+				$("#system_message").empty().text("People think your text is plain. Add some style to make it pop.");
+				return;
+			}
+			window.money_rise_rate = 14;
+
+
+			$("#system_message").empty().text("Good job!")
+		 }
+
+
+		 setInterval(function(){
+		 	window.adjust_message()
+      $("#system_dialog").css("display","block");
+		 	setTimeout(function(){
+        $("#system_dialog").css("display","none");
+      }, 2000);
+    },6000)
+
+
+
+		 setInterval(function(){
+		 	var money = parseInt($("#money_amount").text());
+		 	$("#money_amount").empty().text(money + window.money_rise_rate)
+		 }, 5000);
+
+		 $("#code").on("input",render)
+	</script>
+</body>
+</html>
