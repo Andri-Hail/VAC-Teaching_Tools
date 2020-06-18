@@ -116,9 +116,6 @@ body{
   top:0%;
 }
 
-
-
-
 .tile{
    margin-top:5%;
    width: 100%;
@@ -131,16 +128,44 @@ body{
      width:400px;
      height: 200px;
 }
+.back {
+  padding: 6px 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 40px 2px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  background-color: white; 
+  color: black; 
+  border: 2px solid #232757;
+  border-radius: 8px;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width:120px;
+  }
 
+.back:hover {
+  background-color: #232757;
+  color: white;
+
+}
+::-webkit-scrollbar {
+    display: none;
+}
   </style>
 </head>
-<body style = "align-items: center; background-color: #8CC548; height: 1600px;">
-  <div id = "joined_count_div">
+
+<body style = "align-items: center; background-color: white;">
+  <div id = "joined_count_div" style="margin-top: 80%; left:7%;">
    <p> <span id = "joined_count"></span><span> here</span><p>
-    <button onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> Back to review</button>
+    <button class="back" onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> &lt; Back to review</button>
     
   </div>
-  <img src = "/lesson1.png">
+  <img src = "lesson1.png">
  </img>
   
 </body>

@@ -136,34 +136,45 @@ body{
   left:90%;
   top:0%;
 }
+.back {
+  padding: 6px 14px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;
+  margin: 40px 2px;
+  top: 0px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  background-color: white; 
+  color: black; 
+  border: 2px solid #232757;
+  border-radius: 8px;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width:120px;
+  }
 
+.back:hover {
+  background-color: #232757;
+  color: white;
+
+}
+::-webkit-scrollbar {
+    display: none;
+}
 	</style>
 </head>
-<body>
-	<div id = "joined_count_div">
-	    <button onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> Back to review</button>
-       <button onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'">To react example</button>
-	  </div>
-	<h3 style = "text-align: center; color:red; text-decoration-line: underline; ">WWW example - Netflix</h3>
-	<div style = "margin-top: 0%;margin-left: auto;
-  margin-right: auto;
-  display: block;">
-
-		<div style = "float:left; width:30%;" >
-			<img src = "/comp.png"></img>
-			<p style = "text-align: center;">Client (Your Computer)</p>
-			<p id = "comp1" oninput = "rerender('comp1')" contenteditable="true"></p>
-		</div>
-		<div style = "float:left; width:30%;" >
-			<img  src = "/comp.png"></img>
-			<p id = "comp2" oninput = "rerender('comp2')"  style = "text-align: center;">Server</p>
-			<p contenteditable="true"></p>
-		</div>
-		<div style = "float:left; width:30%;" >
-			<img   src = "/comp.png"></img>
-			<p id = "comp3" oninput = "rerender('comp3')"  style = "text-align: center;">Database</p>
-			<p contenteditable="true"></p>
-		</div>
-	</div>
+<body style = "align-items: center; background-color: white; height: 900px">
+  <div id = "joined_count_div" style="margin-top: 80%; left:7%;">
+   <p> <span id = "joined_count" style="top:0"></span><span> here</span><p>
+    <button class="back" onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> &lt; Back to review</button>
+    
+  </div>
+  <img src = "csdExample.png">
+ </img>
+  
 </body>
 </html>

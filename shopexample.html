@@ -19,6 +19,31 @@
 		body{
 			margin-top: 0px;
 		}
+		.back {
+			padding: 6px 14px;
+			text-align: center;
+			text-decoration: none;
+			/* display: inline-block; */
+			font-size: 12px;
+			margin: 40px 2px;
+			transition-duration: 0.4s;
+			cursor: pointer;
+			background-color: white; 
+			color: black; 
+			border: 2px solid #232757;
+			border-radius: 8px;
+			/* position: absolute; */
+			left: 10px;
+			/* float: left; */
+			-ms-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			width:140px;
+			}
+			.back:hover {
+			background-color: #232757;
+			color: white;
+			}
+
 
 
 	</style>
@@ -28,7 +53,7 @@
 </head>
 <body>
 	<div id = "joined_count_div">
-	    <button onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> Back to review</button>
+	    <button class= "back" onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'">&lt; Back to review</button>
 
 	    
 	  </div>
@@ -44,11 +69,11 @@
 	</div>
 	<p>Write your website code here</p>
 	<div  >
-		<p style = "border:solid black 1px; height: 100px; width:100%;" id = "code" contenteditable="true"></p>
+		<p style = "border:solid black 1px; border-radius:5px;height: 100px; width:100%;" id = "code" contenteditable="true"></p>
 	</div>
 	
 
-	<div style = "background-color: teal; height: 400px;" id = "output_div">
+	<div style = "background-color:  white; border: solid #232757 3px; border-radius: 10px; height: 400px;" id = "output_div">
 	</div>
 	<script type="text/javascript">
 

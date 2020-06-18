@@ -73,9 +73,11 @@
 	<style type="text/css">
 
     .master_tile{
-      position: absolute;
+      position: relative;
       top:0;
-      left:20%;
+      margin-left: auto;
+      margin-right: auto;
+
     }
 
 		.mydiv {
@@ -85,17 +87,17 @@
 
 }
 
-#joined_count_div{
+/* #joined_count_div{
   position: absolute;
   left:90%;
   top:0%;
-}
+} */
 
 .mydivheader {
   padding: 10px;
   cursor: move;
   z-index: 10;
-  background-color: #2196F3;
+  background-color: #558B6E;
   color: #fff;
 }
 
@@ -126,6 +128,10 @@ body{
   margin-bottom: 20px;
   padding-bottom: 15px;
   border-bottom: 1px solid #ddd;
+}
+article {
+  background-color: black;
+  
 }
 .set{
   position: relative;
@@ -173,7 +179,7 @@ body{
 
 .coding_space{
      text-align: left;
-     width:225px;
+width:500px;
      height: 100px;
      white-space: pre-line;
 }
@@ -183,6 +189,7 @@ body{
      width:500px;
      height: 100px;
      white-space: pre-line;
+
 }
 
 .results_spacemaster{
@@ -192,6 +199,110 @@ body{
      white-space: pre-line;
      border-color: black;
      border-width: 1px;
+}
+
+.b1{
+  float: left;
+  color:white;
+  text-align: center;
+  background-color: #232757;
+  padding: 16px;
+  border: none;
+  cursor: pointer;
+  height: 50px;
+  text-decoration: none;
+}
+
+.b1:hover {
+  border-bottom: 3px solid #558B6E;
+  color: white;
+}
+
+.topnav {
+  left:0;
+  top:0;
+  overflow: hidden;
+  background-color: rgb(143, 103, 103);
+  position: absolute;
+  height:7%;
+}
+
+
+.responsive {
+  padding: 0px 6px;
+
+  float: left;
+  width: 49.99999%;
+}
+
+@media only screen and (max-width: 1199px) {
+  .responsive {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+  .container{
+    width:400px;
+  }
+  .coding_space {
+    width:400px;
+  }
+
+}
+@media only screen and (min-width: 1200px) {
+  .responsive {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+  .container{
+    width:530px;
+  }
+  .coding_space {
+    width:530px;
+    height:120px;
+  }
+
+}
+
+@media only screen and (min-width: 1600px) {
+  .responsive {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+  .container{
+    width:730px;
+  }
+  .coding_space {
+    width:730px;
+    height:120px;
+  }
+
+
+
+}
+@media only screen and (max-width: 700px) {
+  .responsive {
+    width: 49.99999%;
+    margin: 6px 0;
+  }
+
+}
+
+@media only screen and (max-width: 350px) {
+  .responsive {
+    width: 100%;
+  }
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+.container {
+  display:block;
+  
+
+   /* margin: 5px; */
 }
 
 	</style>
@@ -250,7 +361,6 @@ body{
 					if((expected === actual) || (string_corrected_actual === expected)){
 						$(question).css("color","green")
 						$(question).parent().find(".content").html("<p>DONE!</p>")
-
 					}
 				}
 			})
@@ -261,132 +371,154 @@ body{
   
 
 
-   <article id = "pane_master" class="master_tile mydiv is-child notification is-danger">
-    <div id = "pane_masterheader" class="mydivheader">Write your notes here, teacher</div>
-    <div style = "display: flex;">
-      <div>
-           <div >
-            <p id="coding_space_master" oninput = "run('master',this); rerender('coding_space_master');" style = "background-color: white; color:black;" class = "coding_spacemaster" contenteditable="true">
-                
-            </p>
-            <div class = "results_spacemaster"  id="results_space_master"  style = "background-color:white">
-            </div>
-            
+
+      <button style="background-color: white; border: none; float:right; margin-top:3px" onclick=add_students()"><img src="addStudent.PNG" width="50px"></button>
+      <button style="background-color: white; border: none; float: right; margin-right:2px; margin-top:3px" onclick=add_master()"><img src="addTeacher.PNG" width="60px"></button>
+
+        <!-- <p> <span id = "joined_count"></span><span> in room</span><p> -->
+          <button class = "b1" click = "var room_name = prompt('What do you want to call your room?'); if(window.active_rooms.indexOf(room_name) !== -1){alert('Room name taken'); return} window.socket.emit('create_room',{room_name:room_name}); window.room_name = room_name; $('#room_name_span').empty().text(window.room_name); $('#joined_count').empty().text(1)";> Create new room</button>
+         <button  class = "b1" onclick = "if(window.active_rooms.length === 0){alert('There are no active rooms'); return} alert('active rooms are ' + JSON.stringify(window.active_rooms)); var room_name = prompt('What room do you want to join?'); $('#room_name_span').empty().text('Failed joining room'); window.socket.emit('join_room',{room_name:room_name});window.room_name = room_name;"> Join room</button>
+         <button class = "b1" onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> Back to review</button>
+         <!-- <p><span> In room </span> <span id = "room_name_span"></span><p> -->
+          <p><span style="margin-left:5px";> Currently in room_ </span> <span id = "room_name_span"></span> <span> _with_ </span><span id = "joined_count"></span><span> _members </span><p>
+  
+
+  <!-- <button onclick = "add_student()" >Add new student</button> -->
+ 
+  <!-- <button onclick = "add_master()" >Add master</button> -->
+  <!-- <div style = "overflow-x: scroll; overflow-y: scroll; position:absolute; top:60%; display:flex;flex-direction: row; width:100%" id = "body_content"> -->
+   
+      <!-- <article style = "display:inline-block; background-color: white;"  id = "pane_student2" class="tile mydiv is-child notification is-danger"> -->
+      </br>
+    </br>
+ 
+
+  <div class="container" style="width:550px">
+ <article id = "pane_master" style= "background-color: #558B6E;" class="master_tile mydiv is-child notification is-danger">
+  <div id = "pane_masterheader" class="mydivheader">Write your notes here, teacher</div>
+  <div style = "display: flex; ">
+    <div>
+         <div >
+          <p id="coding_space_master" oninput = "run('master',this); rerender('coding_space_master');" style = "background-color: white; color:black;" class = "coding_spacemaster" contenteditable="true">
+              
+          </p>
+          <div class = "results_spacemaster"  id="results_space_master"  style = "background-color:white">
           </div>
-            
+          
         </div>
-        
-    
-
-      </article>
-  <div id = "joined_count_div">
-   <p> <span id = "joined_count"></span><span> in room</span><p>
-     <button onclick = "var room_name = prompt('What do you want to call your room?'); if(window.active_rooms.indexOf(room_name) !== -1){alert('Room name taken'); return} window.socket.emit('create_room',{room_name:room_name}); window.room_name = room_name; $('#room_name_span').empty().text(window.room_name); $('#joined_count').empty().text(1)";> Create new room</button>
-    <button onclick = "if(window.active_rooms.length === 0){alert('There are no active rooms'); return} alert('active rooms are ' + JSON.stringify(window.active_rooms)); var room_name = prompt('What room do you want to join?'); $('#room_name_span').empty().text('Failed joining room'); window.socket.emit('join_room',{room_name:room_name});window.room_name = room_name;"> Join room</button>
-    <button onclick = "window.location = 'https://secret-dusk-20902.herokuapp.com/review'"> Back to review</button>
-    <p><span> In room </span> <span id = "room_name_span"></span><p>
-    
+          
+      </div>
+    </article>
   </div>
-  <button onclick = "add_student()" >Add new student</button>
-  <button onclick = "add_master()" >Add master</button>
-  <div style = "overflow-x: scroll; overflow-y: scroll; position:absolute; top:60%; display:flex;flex-direction: row;" id = "body_content">
-    <article style = "display:inline-block;" id = "pane_student1" class="tile mydiv is-child notification is-danger">
-    <div id = "pane_student1header" class="mydivheader">Write your notes here, student</div>
-    <div style = "display: flex;">
-      <div>
-           <div>
-              <p id="coding_space_student1" oninput = "run('student1',this);rerender('coding_space_student1');" style = "background-color: white; color:black;" class = "coding_space" contenteditable="true">
-                  
-              </p>
-              <div class = "results_space"  id="results_space_student1"  style = "background-color:white">
+</br>
+
+</br>
+        <div class="responsive" >
+          <div class="container">
+          <div id = "pane_student1header" class="mydivheader">Write your notes here, student</div>
+            <div style = "display: flex;">
+              <div>
+                   <div>
+                      <p id="coding_space_student1" oninput = "run('student1',this);rerender('coding_space_student1');" style = "background-color: white; color:black; border: 3px solid #558B6E;" class = "coding_space" contenteditable="true">
+                          
+                      </p>
+                      <div id="results_space_student1" ></div>
+                    </div>
+        
+                    
               </div>
             </div>
-
-            
         </div>
-       
+      </div>
+                
         
+              <!-- </article> -->
 
-      </article>
-
-       <article style = "display:inline-block;"  id = "pane_student2" class="tile mydiv is-child notification is-danger">
-    <div id = "pane_student2header" class="mydivheader">Write your notes here, student</div>
-    <div style = "display: flex;">
-      <div>
-           <div>
-              <p id="coding_space_student2" oninput = "run('student2',this);rerender('coding_space_student2');" style = "background-color: white; color:black;" class = "coding_space" contenteditable="true">
-                  
-              </p>
-              <div class = "results_space"  id="results_space_student2"  style = "background-color:white">
+       <!-- <article style = "display:inline-block; background-color: white;"  id = "pane_student2" class="tile mydiv is-child notification is-danger"> -->
+        <div class="responsive">
+          <div class="container">
+          <div id = "pane_student2header" class="mydivheader">Write your notes here, student</div>
+            <div style = "display: flex;">
+              <div>
+                   <div>
+                      <p id="coding_space_student2" oninput = "run('student2',this);rerender('coding_space_student2');" style = "background-color: white; color:black; border: 3px solid #558B6E;" class = "coding_space" contenteditable="true">
+                          
+                      </p>
+                      <div id="results_space_student2" style="height:50px"></div>
+                    </div>
+        
+                    
               </div>
             </div>
-
-            
         </div>
-       
-        
+      </div>
 
-      </article>
+      <!-- </article> -->
 
-       <article style = "display:inline-block;"  id = "pane_student3" class="tile mydiv is-child notification is-danger">
-    <div id = "pane_student3header" class="mydivheader">Write your notes here, student</div>
-    <div style = "display: flex;">
-      <div>
-           <div>
-              <p id="coding_space_student3" oninput = "run('student3',this);rerender('coding_space_student3');" style = "background-color: white; color:black;" class = "coding_space" contenteditable="true">
-                  
-              </p>
-              <div class = "results_space"  id="results_space_student3"  style = "background-color:white">
+             <!-- <article style = "display:inline-block; background-color: white;"  id = "pane_student2" class="tile mydiv is-child notification is-danger"> -->
+              <div class="responsive">
+                <div class="container">
+                <div id = "pane_student3header" class="mydivheader">Write your notes here, student</div>
+                  <div style = "display: flex;">
+                    <div>
+                         <div>
+                            <p id="coding_space_student3" oninput = "run('student3',this);rerender('coding_space_student3');" style = "background-color: white; color:black; border: 3px solid #558B6E;" class = "coding_space" contenteditable="true">
+                                
+                            </p>
+                            <div id="results_space_student3" style="height:50px" ></div>
+                          </div>
+              
+                          
+                    </div>
+                  </div>
               </div>
             </div>
-
-            
-        </div>
-       
         
 
-      </article>
+      <!-- </article> -->
 
-       <article style = "display:inline-block;"  id = "pane_student4" class="tile mydiv is-child notification is-danger">
-    <div id = "pane_student4header" class="mydivheader">Write your notes here, student</div>
-    <div style = "display: flex;">
-      <div>
-           <div>
-              <p id="coding_space_student4" oninput = "run('student4',this);rerender('coding_space_student4');" style = "background-color: white; color:black;" class = "coding_space" contenteditable="true">
-                  
-              </p>
-              <div class = "results_space"  id="results_space_student4"  style = "background-color:white">
-              </div>
+           <!-- <article style = "display:inline-block; background-color: white;"  id = "pane_student2" class="tile mydiv is-child notification is-danger"> -->
+            <div class="responsive" >
+              <div class="container">
+              <div id = "pane_student4header" class="mydivheader">Write your notes here, student</div>
+                <div style = "display: flex;">
+                  <div>
+                       <div>
+                          <p id="coding_space_student4" oninput = "run('student4',this);rerender('coding_space_student4');" style = "background-color: white; color:black;border: 3px solid #558B6E;" class = "coding_space" contenteditable="true">
+                              
+                          </p>
+                          <div id="results_space_student4" style="height:50px" ></div>
+                        </div>
+            
+                        
+                  </div>
+                </div>
             </div>
+          </div>
+  
+        <!-- </article> -->
 
+
+           <!-- <article style = "display:inline-block; background-color: white;"  id = "pane_student2" class="tile mydiv is-child notification is-danger"> -->
+            <div class="responsive">
+              <div class="container" style="margin-right: auto; margin-left: auto; position: relative;">
+              <div id = "pane_student5header" class="mydivheader">Write your notes here, student</div>
+                <div style = "display: flex;">
+                  <div>
+                       <div>
+                          <p id="coding_space_student5" oninput = "run('student5',this);rerender('coding_space_student5');" style = "background-color: white; color:black;  border: 3px solid #558B6E;" class = "coding_space" contenteditable="true">
+                              
+                          </p>
+                          <div id="results_space_student5" style="height:50px"></div>
+                        </div>
             
-        </div>
-       
-        
-
-      </article>
-
-
-       <article style = "display:inline-block;"  id = "pane_student5" class="tile mydiv is-child notification is-danger">
-    <div id = "pane_student5header" class="mydivheader">Write your notes here, student</div>
-    <div style = "display: flex;">
-      <div>
-           <div>
-              <p id="coding_space_student5" oninput = "run('student5',this);rerender('coding_space_student5');" style = "background-color: white; color:black;" class = "coding_space" contenteditable="true">
-                  
-              </p>
-              <div class = "results_space"  id="results_space_student5"  style = "background-color:white">
-              </div>
+                        
+                  </div>
+                </div>
             </div>
+          </div>
+        <!-- </article> -->
 
-            
-        </div>
-       
-        
-
-      </article>
-	 
-    </div>
       <script type="text/javascript">
       	// Make the DIV element draggable:
 		// dragElement(document.getElementById("mydiv"));
